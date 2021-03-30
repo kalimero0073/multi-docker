@@ -14,7 +14,7 @@ after_success: # configuration for prod versions of client, nginx, ...
   - docker build -t kalimero0073/multi-server ./server
   - docker build -t kalimero0073/multi-worker ./worker
   # login to the docker cli - creds defined in travis as env variables
-  - eho "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # take those images and push them to docker hub
   - docker push kalimero0073/multi-client
   - docker push kalimero0073/multi-nginx
