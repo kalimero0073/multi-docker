@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t kalimero0073/react-test -f ./client/Dockerfile.dev ./client
+
+script: # primary test running section
+  - docker run kalimero0073/react-test npm test -- --coverage
+
+after_success: # configuration for prod versions of client, nginx, ...
+  - docker build -t kalimero0073/multi-client ./client
+  - docker build -t kalimero0073/multi-nginx ./nginx
+  - docker build -t kalimero0073/multi-server ./server
+  - docker build -t kalimero0073/multi-worker ./worker
+  # login to the docker cli - creds defined in travis as env variables
+  - eho "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # take those images and push them to docker hub
+  - docker push kalimero0073/multi-client
+  - docker push kalimero0073/multi-nginx
+  - docker push kalimero0073/multi-server
+  - docker push kalimero0073/multi-worker
