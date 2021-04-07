@@ -1,0 +1,9 @@
+{
+    "AWSEBDockerrunVersion":2,
+    "containerDefnitions": [
+        {
+            "name": "client",
+            "image": "kalimero0073/multi-client"
+        }
+    ]
+}
